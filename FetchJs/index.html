@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste fetch</title>
+</head>
+
+<body>
+  <div>
+    <h1>Teste fetch api</h1>
+    <div class="loading">
+      Carregando...
+    </div>
+    <div class="loading-finished">
+      <ul class="result">
+
+      </ul>
+    </div>
+
+  </div>
+</body>
+
+<script>
+  const cep = '08710000';
+  let loading = true
+  let list = ''
+
+  document.querySelector('.loading-finished').style.display = "none";
+  document.querySelector('.loading').style.display = "block";
+
+  async function fetchCep() {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json`)
+      .then((res) => res.json())
+      .then(res => {
+        document.querySelector('.loading-finished').style.display = "block";
+        document.querySelector('.loading').style.display = "none";
+        const data = res
+        loading = false
+        list = document.querySelector(".result")
+
+        Object.keys(data).map(element => {
+          list.innerHTML += `<li>${element}: ${data[element]}</li>`
+        });
+      })
+  }
+
+  fetchCep()
+</script>
+
+</html>
